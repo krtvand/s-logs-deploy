@@ -1,0 +1,8 @@
+mysql_root_password: sorm_logs
+mysql_database: sorm_logs
+mysql_user: sorm_logs
+mysql_password: sorm_logs
+
+
+docker_registry_username: "123456789012345678906"
+docker_registry_password: Defopti77777

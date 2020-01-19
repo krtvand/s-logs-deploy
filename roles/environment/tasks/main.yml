@@ -1,0 +1,18 @@
+---
+
+- name: Install pip
+  become: yes
+  apt:
+    name: python3-pip
+    state: present
+
+- name: install docker-py package
+  become: yes
+  pip:
+    name: docker-py
+    executable: pip3
+
+- name: Create a docker network
+  become: yes
+  docker_network:
+    name: sorm_logs_network

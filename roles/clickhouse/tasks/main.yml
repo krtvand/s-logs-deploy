@@ -1,0 +1,23 @@
+---
+
+- name: clickhouse directory
+  file:
+    path: "{{ project_dir }}/var/clickhouse"
+    state: directory
+
+- name: start clickhouse
+  become: yes
+  docker_container:
+    name: sorm_logs_clickhouse
+    image: yandex/clickhouse-server
+    state: started
+    restart_policy: always
+    ports:
+      - "{{ clickhouse_expose_port }}:8123"
+    networks_cli_compatible: yes
+    networks:
+      - name: sorm_logs_network
+    ulimits:
+      - nofile:262144:262144
+    volumes:
+      - "{{ project_dir }}/var/clickhouse:/var/lib/clickhouse"
