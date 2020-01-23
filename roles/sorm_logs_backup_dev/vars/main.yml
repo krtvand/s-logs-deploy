@@ -1,0 +1,6 @@
+#clickhouse_backup_bin_path: '/usr/local/bin/clickhouse-backup'
+#clickhouse_backup_config_path: '/etc/clickhouse-backup/config.yml'
+
+sorm_logs_backup_config_path: '/etc/sorm_logs_backup/config.yml'
+clickhouse_data_path: "/var/lib/clickhouse"
+clickhouse_backups_path : "/backups/clickhouse"

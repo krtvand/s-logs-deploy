@@ -16,3 +16,13 @@
   become: yes
   docker_network:
     name: sorm_logs_network
+
+- name: project directory
+  become: yes
+  file:
+    path: "{{ project_dir }}"
+    state: directory
+    mode: 0755
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    recurse: yes

@@ -1,0 +1,19 @@
+- name: "Deploy sorm_logs for development"
+  hosts: develop
+  vars:
+    project_dir: /home/andrey/sorm_logs_dev
+    mysql_expose_port: 3336
+    clickhouse_expose_port: 8133
+    app_expose_port: 9080
+    app_source_code_path: /projects/vk/sorm_logs
+    sorm_logs_backup_expose_port: 9001
+    sorm_logs_backup_source_code_path: /projects/vk/sorm_logs_backup
+  roles:
+#    - role: docker-engine
+#      become: yes
+#    - environment
+    - mariadb
+    - clickhouse
+    - app_develop
+    - sorm_logs_backup_dev
+

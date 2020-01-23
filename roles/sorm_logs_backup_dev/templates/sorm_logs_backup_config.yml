@@ -1,0 +1,6 @@
+{#
+# CLICKHOUSE_BACKUP_PATH: {{ clickhouse_backup_bin_path }}
+# CLICKHOUSE_BACKUP_CONFIG: {{ clickhouse_backup_config_path }}
+#}
+CLICKHOUSE_DATA_PATH: {{ clickhouse_data_path }}
+CLICKHOUSE_BACKUPS_PATH: {{ clickhouse_backups_path }}

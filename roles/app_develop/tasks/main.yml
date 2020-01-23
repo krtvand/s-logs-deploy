@@ -1,0 +1,32 @@
+- name: django settings directory
+  file:
+    path: "{{ project_dir }}/etc/app"
+    state: directory
+
+- name: django settings
+  template:
+    src: django_settings.py
+    dest: "{{ project_dir }}/etc/app/django_settings.py"
+    mode: 0644
+
+- include: sorm_logs_admin_build_docker_image.yml tag=dev
+
+- name: Run app docker container
+  docker_container:
+    name: "{{ sorm_logs_admin_docker_container_name }}"
+    image: "{{ sorm_logs_admin_docker_image }}:dev"
+    state: present
+    restart_policy: 'no'
+    recreate: yes
+    ports:
+      - "{{ app_expose_port }}:80"
+    networks_cli_compatible: yes
+    networks:
+      - name: sorm_logs_network
+    command: ["./wait-for-it.sh", "maria_db_prod:3306", "--timeout=60", "--", "./start.sh"]
+    volumes:
+      - "{{ app_source_code_path }}:/code"
+      - "{{ project_dir }}/etc/app:/code/sorm_logs_custom_settings"
+    env:
+      DJANGO_SETTINGS_MODULE: sorm_logs_custom_settings.django_settings
+

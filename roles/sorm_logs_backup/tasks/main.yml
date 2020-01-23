@@ -1,0 +1,77 @@
+- name: sorm_logs_backup settings directory
+  file:
+    path: "{{ project_dir }}/etc/sorm_logs_backup"
+    state: directory
+
+- name: sorm_logs_backup settings file
+  template:
+    src: sorm_logs_backup_config.yml
+    dest: "{{ project_dir }}/etc/sorm_logs_backup/config.yml"
+    mode: 0644
+
+- name: backups directory
+  file:
+    path: "{{ project_dir }}/var/backups"
+    state: directory
+
+#- name: sorm_logs_backup_bundled docker  directory
+#  file:
+#    path: "{{ project_dir }}/docker/sorm_logs_backup_bundled/"
+#    state: directory
+
+#- name: setup clickhouse-backup
+#  copy:
+#    dest: "{{ project_dir }}/docker/sorm_logs_backup_bundled/clickhouse-backup"
+#    src: clickhouse-backup
+#    mode: 0744
+
+#- name: clickhouse-backup config
+#  template:
+#    src: clickhouse_backup_config.yml
+#    dest: '{{ project_dir }}/docker/sorm_logs_backup_bundled/clickhouse_backup_config.yml'
+#    mode: 0644
+
+#- name: make sorm_logs_backup_bundled dockerfile
+#  template:
+#    src: dockerfile_template
+#    dest: '{{ project_dir }}/docker/sorm_logs_backup_bundled/Dockerfile'
+#    mode: 0644
+
+#- name: Build sorm_logs_backup_bundled image
+#  docker_image:
+#    build:
+#      path: '{{ project_dir }}/docker/sorm_logs_backup_bundled/'
+#      pull: no
+#    name: sorm_logs_backup_bundled
+#    tag: latest
+#    push: no
+#    source: build
+#    state: present
+#    force_source: true
+
+- name: Log into DockerHub
+  docker_login:
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+
+- name: Run sorm_logs_backup docker container
+  docker_container:
+    name: "{{ sorm_logs_backup_docker_container_name }}"
+    image: "{{ sorm_logs_backup_docker_image }}"
+    repository: "{{docker_registry_username}}"
+    pull: yes
+    state: started
+    restart_policy: "on-failure"
+    recreate: yes
+    ports:
+      - "{{ sorm_logs_backup_expose_port }}:80"
+    networks_cli_compatible: yes
+    networks:
+      - name: sorm_logs_network
+    volumes:
+      - "{{ project_dir }}/var/clickhouse:{{ clickhouse_data_path }}"
+      - "{{ project_dir }}/var/backups:/backups"
+      - "{{ project_dir }}/etc/sorm_logs_backup/config.yml/:{{ sorm_logs_backup_config_path }}"
+    env:
+      SORM_LOGS_BACKUP_CONFIG: '{{ sorm_logs_backup_config_path }}'
+

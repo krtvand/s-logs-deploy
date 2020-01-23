@@ -9,14 +9,18 @@
     dest: "{{ project_dir }}/etc/app/django_settings.py"
     mode: 0644
 
+- name: Log into DockerHub
+  docker_login:
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
 
-- name: start app
-  become: yes
+- name: Run sorm_logs_admin docker container
   docker_container:
-    name: sorm_logs_app
-    image: krtvand/s-logs
+    pull: yes
+    name: "{{ sorm_logs_admin_docker_container_name }}"
+    image: "{{ sorm_logs_admin_docker_image }}"
     state: started
-    restart_policy: always
+    restart_policy: 'no'
     recreate: yes
     ports:
       - "{{ app_expose_port }}:80"
@@ -27,5 +31,5 @@
     volumes:
       - "{{ project_dir }}/etc/app:/code/sorm_logs_custom_settings"
     env:
-      DJANGO_SETTINGS_MODULE: sorm_logs.django_settings
+      DJANGO_SETTINGS_MODULE: sorm_logs_custom_settings.django_settings
 

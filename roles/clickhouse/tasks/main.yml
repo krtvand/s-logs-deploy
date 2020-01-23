@@ -1,14 +1,13 @@
 ---
 
-- name: clickhouse directory
+- name: clickhouse data directory
   file:
     path: "{{ project_dir }}/var/clickhouse"
     state: directory
 
 - name: start clickhouse
-  become: yes
   docker_container:
-    name: sorm_logs_clickhouse
+    name: "{{ sorm_logs_clickhouse_docker_container_name }}"
     image: yandex/clickhouse-server
     state: started
     restart_policy: always

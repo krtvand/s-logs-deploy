@@ -1,0 +1,11 @@
+
+sorm_logs_admin_docker_image: sorm_logs_admin
+
+sorm_logs_backup_docker_image: sorm_logs_backup
+sorm_logs_backup_docker_container_name: sorm_logs_backup
+
+sorm_logs_clickhouse_docker_image: sorm_logs_clickhouse
+sorm_logs_clickhouse_docker_container_name: sorm_logs_clickhouse
+
+sorm_logs_mariadb_docker_image: sorm_logs_mariadb
+sorm_logs_mariadb_docker_container_name: sorm_logs_mariadb
