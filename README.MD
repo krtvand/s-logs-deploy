@@ -16,7 +16,10 @@ ansible-vault encrypt group_vars/all
 
 
 ### Deploy
+
+ ***Alex deploy***
 ```bash
-# docker_build_and_push_app_image
-ansible-playbook -e 'ansible_python_interpreter=/usr/bin/python3' docker_build_and_push_app_image.yml
+sudo pip3 install ansible
+
+ansible-pull -U https://github.com/krtvand/s-logs-deploy -i "localhost," --ask-become-pass -e 'ansible_python_interpreter=/usr/bin/python3' --vault-password-file=vault_pass  deploy_to_alex.yml
 ```

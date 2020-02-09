@@ -17,10 +17,11 @@
 - name: Run sorm_logs_admin docker container
   docker_container:
     pull: yes
-    name: "{{ sorm_logs_admin_docker_container_name }}"
+    repository: "{{docker_registry_username}}"
     image: "{{ sorm_logs_admin_docker_image }}"
+    name: "{{ sorm_logs_admin_docker_container_name }}"
     state: started
-    restart_policy: 'no'
+    restart_policy: "on-failure"
     recreate: yes
     ports:
       - "{{ app_expose_port }}:80"

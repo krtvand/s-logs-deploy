@@ -1,0 +1,13 @@
+- name: "Build and push to registry sorm_logs_backup image"
+  hosts: develop
+  tasks:
+    - include: tasks/login_into_dockerhub.yml
+    - include: roles/sorm_logs_backup_dev/tasks/sorm_logs_backup_build_docker_image.yml tag=latest
+    - name: Push sorm_logs_backup image to a private repo
+      docker_image:
+        name: "{{ sorm_logs_backup_docker_image }}"
+        repository: "{{docker_registry_username}}/{{ sorm_logs_backup_docker_image }}"
+        tag: latest
+        push: yes
+        source: local
+        force_tag: yes

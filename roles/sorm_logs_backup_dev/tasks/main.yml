@@ -31,18 +31,8 @@
 #    dest: '{{ project_dir }}/docker/sorm_logs_backup_bundled/clickhouse_backup_config.yml'
 #    mode: 0644
 
-- name: Build sorm_logs_backup image
-  docker_image:
-    build:
-      path: "{{ sorm_logs_backup_source_code_path }}"
-      pull: no
-    name: "{{ sorm_logs_backup_docker_image }}"
-    tag: latest
-    push: no
-    source: build
-    state: present
-    force_source: true  # Use with state present to build, load or pull an image (depending on
-    # the value of the source option) when the image already exists.
+- include: sorm_logs_backup_build_docker_image.yml tag=dev
+
 
 #- name: make sorm_logs_backup_bundled dockerfile
 #  template:
@@ -65,7 +55,7 @@
 - name: Run sorm_logs_backup_bundled docker container
   docker_container:
     name: "{{ sorm_logs_backup_docker_container_name }}"
-    image: "{{ sorm_logs_backup_docker_image }}"
+    image: "{{ sorm_logs_backup_docker_image }}:dev"
     state: started
     restart_policy: 'no'
     recreate: yes
