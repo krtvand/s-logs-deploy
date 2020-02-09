@@ -1,5 +1,5 @@
 - name: "Deploy sorm_logs app"
-  hosts: localhost
+  hosts: alex
   vars:
     project_dir: /sorm_logs/
     mysql_expose_port: 3336
