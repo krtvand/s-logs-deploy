@@ -1,3 +1,4 @@
+ansible_user: vagrant
 
 sorm_logs_admin_docker_image: sorm_logs_admin
 
