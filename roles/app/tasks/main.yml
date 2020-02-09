@@ -17,8 +17,7 @@
 - name: Run sorm_logs_admin docker container
   docker_container:
     pull: yes
-    repository: "{{docker_registry_username}}"
-    image: "{{ sorm_logs_admin_docker_image }}"
+    image: "{{ docker_registry_username }}/{{ sorm_logs_admin_docker_image }}"
     name: "{{ sorm_logs_admin_docker_container_name }}"
     state: started
     restart_policy: "on-failure"

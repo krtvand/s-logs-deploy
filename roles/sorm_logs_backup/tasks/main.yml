@@ -57,8 +57,7 @@
 - name: Run sorm_logs_backup docker container
   docker_container:
     name: "{{ sorm_logs_backup_docker_container_name }}"
-    image: "{{ sorm_logs_backup_docker_image }}"
-    repository: "{{docker_registry_username}}"
+    image: "{{ docker_registry_username }}/{{ sorm_logs_backup_docker_image }}"
     pull: yes
     state: started
     restart_policy: "on-failure"
