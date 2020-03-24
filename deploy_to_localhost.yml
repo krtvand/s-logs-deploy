@@ -1,11 +1,11 @@
 - name: "Deploy sorm_logs app"
-  hosts: 127.0.0.1
-  connection: local
+  hosts: localhost
   vars:
-    project_dir: ~/sorm_logs/
-    mysql_expose_port: 3336
-    clickhouse_expose_port: 8133
-    app_expose_port: 80
+    project_dir: /sorm_logs/
+    mysql_expose_port: 3346
+    clickhouse_expose_port: 8143
+    app_expose_port: 8040
+    sorm_logs_backup_expose_port: 9040
   roles:
     - role: docker-engine
       become: yes
@@ -13,4 +13,5 @@
     - mariadb
     - clickhouse
     - app
+    - sorm_logs_backup
 

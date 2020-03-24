@@ -21,5 +21,7 @@ ansible-vault encrypt group_vars/all
 ```bash
 sudo pip3 install ansible
 
-ansible-pull -U https://github.com/krtvand/s-logs-deploy -i "localhost," --ask-become-pass -e 'ansible_python_interpreter=/usr/bin/python3' --vault-password-file=vault_pass  deploy_to_alex.yml
+sudo mkdir /sorm_logs
+sudo echo 'vault_pass' > /sorm_logs/.vault_pass
+ansible-pull -U https://github.com/krtvand/s-logs-deploy --ask-become-pass deploy_to_alex.yml
 ```
