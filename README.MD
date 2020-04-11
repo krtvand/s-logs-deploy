@@ -23,5 +23,5 @@ sudo pip3 install ansible
 
 sudo mkdir /sorm_logs
 sudo echo 'vault_pass' > /sorm_logs/.vault_pass
-ansible-pull -U https://github.com/krtvand/s-logs-deploy --ask-become-pass deploy_to_alex.yml
+ansible-pull -U https://github.com/krtvand/s-logs-deploy --ask-become-pass alex_pull.yml
 ```
