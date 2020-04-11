@@ -7,8 +7,8 @@
     app_expose_port: 80
     sorm_logs_backup_expose_port: 9070
   roles:
-    - role: docker-engine
-      become: yes
+#    - role: docker-engine
+#      become: yes
     - environment
     - mariadb
     - clickhouse
