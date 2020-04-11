@@ -1,6 +1,4 @@
 ### Deploy
-sudo apt update
-sudo apt install python3 python3-pip
 pip3 install ansible
 pip3 install docker-py
 
@@ -19,9 +17,14 @@ ansible-vault encrypt group_vars/all
 
  ***Alex deploy***
 ```bash
-sudo pip3 install ansible
+su spy
+sudo apt update
+sudo apt install python3 python3-pip
+python3 -m pip install ansible
+python3 -m pip install docker-py
 
 sudo mkdir /sorm_logs
-sudo echo 'vault_pass' > /sorm_logs/.vault_pass
+sudo chown spy:spy /sorm_logs
+echo 'vault_pass' > /sorm_logs/.vault_pass
 ansible-pull -U https://github.com/krtvand/s-logs-deploy --ask-become-pass alex_pull.yml
 ```
