@@ -16,12 +16,12 @@
     dest: "{{ project_dir }}/etc/mariadb/mysql.cnf"
     mode: 0644
 
-- name: start mariadb container
+- name: create mariadb container
   docker_container:
     name: "{{ sorm_logs_mariadb_docker_container_name }}"
     image: mariadb:10.4
-    state: started
-    restart_policy: always
+    state: present
+    restart_policy: "on-failure"
     ports:
       - "{{ mysql_expose_port }}:3306"
     networks_cli_compatible: yes
@@ -36,3 +36,8 @@
       - "{{ project_dir }}/var/mariadb:/var/lib/mysql"
       - "{{ project_dir }}/etc/mariadb:/etc/mysql/conf.d"
 
+- name: Start mariadb container
+  docker_container:
+    name: "{{ sorm_logs_mariadb_docker_container_name }}"
+    state: started
+  tags: [start, update]

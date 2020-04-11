@@ -8,6 +8,7 @@
     src: sorm_logs_backup_config.yml
     dest: "{{ project_dir }}/etc/sorm_logs_backup/config.yml"
     mode: 0644
+  tags: update
 
 - name: backups directory
   file:
@@ -53,17 +54,18 @@
   docker_login:
     username: "{{ docker_registry_username }}"
     password: "{{ docker_registry_password }}"
+  tags: update
 
-- name: Run sorm_logs_backup docker container
+- name: Create sorm_logs_backup docker container
   docker_container:
     name: "{{ sorm_logs_backup_docker_container_name }}"
     image: "{{ docker_registry_username }}/{{ sorm_logs_backup_docker_image }}"
     pull: yes
-    state: started
+    state: present
     restart_policy: "on-failure"
     recreate: yes
     ports:
-      - "{{ sorm_logs_backup_expose_port }}:80"
+      - "{{ sorm_logs_backup_expose_port }}:8080"
     networks_cli_compatible: yes
     networks:
       - name: sorm_logs_network
@@ -73,4 +75,17 @@
       - "{{ project_dir }}/etc/sorm_logs_backup/config.yml/:{{ sorm_logs_backup_config_path }}"
     env:
       SORM_LOGS_BACKUP_CONFIG: '{{ sorm_logs_backup_config_path }}'
+  tags: update
 
+- name: Wait until clickhouse is started
+  wait_for:
+    port: "{{ clickhouse_expose_port }}"
+    timeout: 30
+  tags: [start, update]
+
+- name: Run sorm_logs_backup docker container
+  docker_container:
+    pull: no
+    name: "{{ sorm_logs_backup_docker_container_name }}"
+    state: started
+  tags: [update, start]

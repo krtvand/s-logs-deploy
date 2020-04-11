@@ -1,4 +1,4 @@
-ansible_user: vagrant
+ansible_user: spy
 
 sorm_logs_admin_docker_image: sorm_logs_admin
 sorm_logs_admin_docker_container_name: sorm_logs_admin

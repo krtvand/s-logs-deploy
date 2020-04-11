@@ -8,18 +8,26 @@
     src: django_settings.py
     dest: "{{ project_dir }}/etc/app/django_settings.py"
     mode: 0644
+  tags: update
 
 - name: Log into DockerHub
   docker_login:
     username: "{{ docker_registry_username }}"
     password: "{{ docker_registry_password }}"
+  tags: update
 
-- name: Run sorm_logs_admin docker container
+- name: Wait until mariadb is started
+  wait_for:
+    port: "{{ mysql_expose_port }}"
+    timeout: 30
+  tags: [start, update]
+
+- name: Create sorm_logs_admin docker container
   docker_container:
     pull: yes
     image: "{{ docker_registry_username }}/{{ sorm_logs_admin_docker_image }}"
     name: "{{ sorm_logs_admin_docker_container_name }}"
-    state: started
+    state: present
     restart_policy: "on-failure"
     recreate: yes
     ports:
@@ -32,4 +40,12 @@
       - "{{ project_dir }}/etc/app:/code/sorm_logs_custom_settings"
     env:
       DJANGO_SETTINGS_MODULE: sorm_logs_custom_settings.django_settings
+  tags: update
+
+- name: Run sorm_logs_admin docker container
+  docker_container:
+    pull: no
+    name: "{{ sorm_logs_admin_docker_container_name }}"
+    state: started
+  tags: [update, start]
 
