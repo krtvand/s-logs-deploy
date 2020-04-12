@@ -15,5 +15,5 @@ DATABASES = {
 }
 
 SORM_LOGS_BACKUP = {
-    'url': 'http://{{ sorm_logs_backup_docker_container_name }}:80/make_clickhouse_backup'
+    'url': 'http://{{ sorm_logs_backup_docker_container_name }}:8080/make_clickhouse_backup'
 }

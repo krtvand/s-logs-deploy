@@ -27,4 +27,7 @@ sudo mkdir /sorm_logs
 sudo chown spy:spy /sorm_logs
 echo 'vault_pass' > /sorm_logs/.vault_pass
 ansible-pull -U https://github.com/krtvand/s-logs-deploy --ask-become-pass alex_pull.yml
+
+ansible-pull -U https://github.com/krtvand/s-logs-deploy alex_pull.yml --tags update
+
 ```
