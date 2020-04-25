@@ -11,18 +11,18 @@
   tags: update
 
 - name: Log into DockerHub
+  when: dev is not defined
   docker_login:
     username: "{{ docker_registry_username }}"
     password: "{{ docker_registry_password }}"
   tags: update
 
-- name: Wait until mariadb is started
-  wait_for:
-    port: "{{ mysql_expose_port }}"
-    timeout: 30
-  tags: [start, update]
+- include: sorm_logs_admin_build_docker_image.yml tag=dev
+  when: dev is defined
+  tags: update
 
 - name: Create sorm_logs_admin docker container
+  when: dev is not defined
   docker_container:
     pull: yes
     image: "{{ docker_registry_username }}/{{ sorm_logs_admin_docker_image }}"
@@ -31,7 +31,7 @@
     restart_policy: "on-failure"
     recreate: yes
     ports:
-      - "{{ admin_expose_port }}:80"
+      - "{{ admin_expose_port }}:{{ sorm_logs_admin_port }}"
     networks_cli_compatible: yes
     networks:
       - name: sorm_logs_network
@@ -42,10 +42,55 @@
       DJANGO_SETTINGS_MODULE: sorm_logs_custom_settings.django_settings
   tags: update
 
+- name: Make sorm_logs admin docker container with mounted src code
+  when: dev is defined
+  docker_container:
+    name: "{{ sorm_logs_admin_docker_container_name }}"
+    image: "{{ sorm_logs_admin_docker_image }}:dev"
+    state: started
+    restart_policy: 'no'
+    recreate: yes
+    ports:
+      - "{{ admin_expose_port }}:{{ sorm_logs_admin_port }}"
+    networks_cli_compatible: yes
+    networks:
+      - name: sorm_logs_network
+    command: ["./wait-for-it.sh", "maria_db_prod:3306", "--timeout=60", "--", "./start.sh"]
+    volumes:
+      - "{{ admin_source_code_path }}:/code"
+      - "{{ project_dir }}/etc/admin:/code/sorm_logs_custom_settings"
+    env:
+      DJANGO_SETTINGS_MODULE: sorm_logs_custom_settings.django_settings
+  tags: [update, start]
+
+- name: Make sorm_logs admin docker container for shell access
+  when: dev is defined
+  docker_container:
+    name: "{{ sorm_logs_admin_docker_container_name }}_shell"
+    image: "{{ sorm_logs_admin_docker_image }}:dev"
+    state: started
+    restart_policy: 'no'
+    recreate: yes
+    networks_cli_compatible: yes
+    networks:
+      - name: sorm_logs_network
+    command: ["tail", "-f", "/dev/null"]
+    volumes:
+      - "{{ admin_source_code_path }}:/code"
+      - "{{ project_dir }}/etc/admin:/code/sorm_logs_custom_settings"
+    env:
+      DJANGO_SETTINGS_MODULE: sorm_logs_custom_settings.django_settings
+  tags: update
+
+- name: Wait until mariadb is started
+  wait_for:
+    port: "{{ mysql_expose_port }}"
+    timeout: 30
+  tags: [start, update]
+
 - name: Run sorm_logs_admin docker container
   docker_container:
     pull: no
     name: "{{ sorm_logs_admin_docker_container_name }}"
     state: started
   tags: [update, start]
-

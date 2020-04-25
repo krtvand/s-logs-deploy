@@ -46,12 +46,18 @@
 - include: sorm_logs_backup_build_docker_image.yml tag=dev
   when: dev is defined
 
-- name: Run sorm_logs_backup docker container with mounted src code
+- name: Wait until clickhouse is started
+  wait_for:
+    port: "{{ clickhouse_expose_port }}"
+    timeout: 30
+  tags: [start, update]
+
+- name: Create sorm_logs_backup docker container with mounted src code
   when: dev is defined
   docker_container:
     name: "{{ sorm_logs_backup_docker_container_name }}"
     image: "{{ sorm_logs_backup_docker_image }}:dev"
-    state: started
+    state: present
     restart_policy: 'no'
     recreate: yes
     ports:
@@ -66,14 +72,6 @@
       - "{{ sorm_logs_backup_source_code_path }}:/code"
     env:
       SORM_LOGS_BACKUP_CONFIG: '{{ sorm_logs_backup_config_path }}'
-
-
-
-- name: Wait until clickhouse is started
-  wait_for:
-    port: "{{ clickhouse_expose_port }}"
-    timeout: 30
-  tags: [start, update]
 
 - name: Run sorm_logs_backup docker container
   docker_container:

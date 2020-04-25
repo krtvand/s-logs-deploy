@@ -2,9 +2,6 @@ admin_source_code_path: /projects/vk/sorm_logs
 sorm_logs_backup_source_code_path: /projects/vk/sorm_logs_backup
 
 sorm_logs_admin_docker_container_name: sorm_logs_admin_dev
-
 sorm_logs_backup_docker_container_name: sorm_logs_backup_dev
-
 sorm_logs_clickhouse_docker_container_name: sorm_logs_clickhouse_dev
-
 sorm_logs_mariadb_docker_container_name: sorm_logs_mariadb_dev

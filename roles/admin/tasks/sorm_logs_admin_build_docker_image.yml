@@ -9,5 +9,5 @@
     push: no
     source: build
     state: present
-    force_source: true  # Use with state present to build, load or pull an image (depending on
+    force_source: yes  # Use with state present to build, load or pull an image (depending on
     # the value of the source option) when the image already exists.
