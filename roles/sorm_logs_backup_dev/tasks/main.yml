@@ -14,43 +14,8 @@
     path: "{{ project_dir }}/var/backups"
     state: directory
 
-#- name: sorm_logs_backup_bundled docker  directory
-#  file:
-#    path: "{{ project_dir }}/docker/sorm_logs_backup_bundled/"
-#    state: directory
-
-#- name: setup clickhouse-backup
-#  copy:
-#    dest: "{{ project_dir }}/docker/sorm_logs_backup_bundled/clickhouse-backup"
-#    src: clickhouse-backup
-#    mode: 0744
-
-#- name: clickhouse-backup config
-#  template:
-#    src: clickhouse_backup_config.yml
-#    dest: '{{ project_dir }}/docker/sorm_logs_backup_bundled/clickhouse_backup_config.yml'
-#    mode: 0644
-
 - include: sorm_logs_backup_build_docker_image.yml tag=dev
 
-
-#- name: make sorm_logs_backup_bundled dockerfile
-#  template:
-#    src: dockerfile_template
-#    dest: '{{ project_dir }}/docker/sorm_logs_backup_bundled/Dockerfile'
-#    mode: 0644
-
-#- name: Build sorm_logs_backup_bundled image
-#  docker_image:
-#    build:
-#      path: '{{ project_dir }}/docker/sorm_logs_backup_bundled/'
-#      pull: no
-#    name: sorm_logs_backup_bundled
-#    tag: latest
-#    push: no
-#    source: build
-#    state: present
-#    force_source: true
 
 - name: Run sorm_logs_backup_bundled docker container
   docker_container:
@@ -67,8 +32,8 @@
     volumes:
       - "{{ project_dir }}/var/clickhouse:{{ clickhouse_data_path }}"
       - "{{ project_dir }}/var/backups:/backups"
-      - "{{ sorm_logs_backup_source_code_path }}:/code"
       - "{{ project_dir }}/etc/sorm_logs_backup/config.yml/:{{ sorm_logs_backup_config_path }}"
+      - "{{ sorm_logs_backup_source_code_path }}:/code"
     env:
       SORM_LOGS_BACKUP_CONFIG: '{{ sorm_logs_backup_config_path }}'
 

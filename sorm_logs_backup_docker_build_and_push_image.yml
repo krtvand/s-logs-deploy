@@ -2,7 +2,7 @@
   hosts: develop
   tasks:
     - include: tasks/login_into_dockerhub.yml
-    - include: roles/sorm_logs_backup_dev/tasks/sorm_logs_backup_build_docker_image.yml tag=latest
+    - include: roles/sorm_logs_backup/tasks/sorm_logs_backup_build_docker_image.yml tag=latest force_build=yes
     - name: Push sorm_logs_backup image to a private repo
       docker_image:
         name: "{{ sorm_logs_backup_docker_image }}"

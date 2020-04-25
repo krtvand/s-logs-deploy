@@ -1,0 +1,12 @@
+- name: Build sorm_logs_backup image
+  docker_image:
+    build:
+      path: "{{ sorm_logs_backup_source_code_path }}"
+      pull: no
+    name: "{{ sorm_logs_backup_docker_image }}"
+    tag: "{{ tag }}"
+    push: no
+    source: build
+    state: present
+    force_source: yes  # Use with state present to build, load or pull an image (depending on
+    # the value of the source option) when the image already exists.
