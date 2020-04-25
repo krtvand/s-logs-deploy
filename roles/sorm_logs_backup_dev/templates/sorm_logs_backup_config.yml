@@ -1,4 +1,0 @@
-CLICKHOUSE_DATA_PATH: {{ clickhouse_data_path }}
-CLICKHOUSE_BACKUPS_PATH: {{ clickhouse_backups_path }}
-
-port: {{ sorm_logs_backup_port }}

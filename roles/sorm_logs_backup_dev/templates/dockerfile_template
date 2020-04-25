@@ -1,6 +1,0 @@
-FROM {{ sorm_logs_backup_docker_image }}
-
-VOLUME ["/var/lib/clickhouse"]
-
-ADD clickhouse-backup {{ clickhouse_backup_bin_path }}
-ADD clickhouse_backup_config.yml {{ clickhouse_backup_config_path }}
