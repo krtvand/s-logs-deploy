@@ -4,7 +4,7 @@
     project_dir: /sorm_logs/
     mysql_expose_port: 3346
     clickhouse_expose_port: 8143
-    app_expose_port: 8040
+    admin_expose_port: 8040
     sorm_logs_backup_expose_port: 9040
   roles:
 #    - role: docker-engine

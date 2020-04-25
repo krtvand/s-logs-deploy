@@ -31,7 +31,7 @@
     restart_policy: "on-failure"
     recreate: yes
     ports:
-      - "{{ app_expose_port }}:80"
+      - "{{ admin_expose_port }}:80"
     networks_cli_compatible: yes
     networks:
       - name: sorm_logs_network
