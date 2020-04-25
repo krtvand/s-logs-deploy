@@ -15,6 +15,6 @@
 #    - environment
 #    - mariadb
 #    - clickhouse
-#    - app_develop
+    - admin_develop
     - sorm_logs_backup
 

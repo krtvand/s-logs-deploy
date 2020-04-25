@@ -4,7 +4,7 @@
     app_source_code_path: /projects/vk/sorm_logs
   tasks:
     - include: tasks/login_into_dockerhub.yml
-    - include: roles/app_develop/tasks/sorm_logs_admin_build_docker_image.yml tag=latest
+    - include: roles/admin_develop/tasks/sorm_logs_admin_build_docker_image.yml tag=latest
     - name: Push sorm_logs_admin image to a private repo
       docker_image:
         name: "{{ sorm_logs_admin_docker_image }}"
