@@ -1,7 +1,7 @@
 - name: "Build and push to registry sorm_logs_admin image"
   hosts: develop
   vars:
-    app_source_code_path: /projects/vk/sorm_logs
+    admin_source_code_path: /projects/vk/sorm_logs
   tasks:
     - include: tasks/login_into_dockerhub.yml
     - include: roles/admin_develop/tasks/sorm_logs_admin_build_docker_image.yml tag=latest

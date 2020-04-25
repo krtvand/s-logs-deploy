@@ -1,4 +1,4 @@
-app_source_code_path: /projects/vk/sorm_logs
+admin_source_code_path: /projects/vk/sorm_logs
 sorm_logs_backup_source_code_path: /projects/vk/sorm_logs_backup
 
 sorm_logs_admin_docker_container_name: sorm_logs_admin_dev

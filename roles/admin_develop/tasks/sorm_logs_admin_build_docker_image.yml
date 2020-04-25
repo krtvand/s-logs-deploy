@@ -2,7 +2,7 @@
 - name: Build sorm_logs_admin docker image
   docker_image:
     build:
-      path: "{{ app_source_code_path }}"
+      path: "{{ admin_source_code_path }}"
       pull: no
     name: "{{ sorm_logs_admin_docker_image }}"
     tag: "{{ tag }}"

@@ -6,7 +6,7 @@
     mysql_expose_port: 3336
     clickhouse_expose_port: 8133
     admin_expose_port: 9001
-    app_source_code_path: /projects/vk/sorm_logs
+    admin_source_code_path: /projects/vk/sorm_logs
     sorm_logs_backup_expose_port: 9002
     sorm_logs_backup_source_code_path: /projects/vk/sorm_logs_backup
   roles:

@@ -25,7 +25,7 @@
       - name: sorm_logs_network
     command: ["tail", "-f", "/dev/null"]
     volumes:
-      - "{{ app_source_code_path }}:/code"
+      - "{{ admin_source_code_path }}:/code"
       - "{{ project_dir }}/etc/admin:/code/sorm_logs_custom_settings"
     env:
       DJANGO_SETTINGS_MODULE: sorm_logs_custom_settings.django_settings
