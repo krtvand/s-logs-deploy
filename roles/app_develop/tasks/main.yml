@@ -1,12 +1,12 @@
 - name: django settings directory
   file:
-    path: "{{ project_dir }}/etc/app"
+    path: "{{ project_dir }}/etc/admin"
     state: directory
 
 - name: django settings
   template:
     src: django_settings.py
-    dest: "{{ project_dir }}/etc/app/django_settings.py"
+    dest: "{{ project_dir }}/etc/admin/django_settings.py"
     mode: 0644
 
 - include: sorm_logs_admin_build_docker_image.yml tag=dev
@@ -26,7 +26,7 @@
     command: ["tail", "-f", "/dev/null"]
     volumes:
       - "{{ app_source_code_path }}:/code"
-      - "{{ project_dir }}/etc/app:/code/sorm_logs_custom_settings"
+      - "{{ project_dir }}/etc/admin:/code/sorm_logs_custom_settings"
     env:
       DJANGO_SETTINGS_MODULE: sorm_logs_custom_settings.django_settings
 

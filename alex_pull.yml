@@ -1,4 +1,4 @@
-- name: "Deploy sorm_logs app"
+- name: "Deploy sorm_logs project"
   hosts: localhost
   vars:
     project_dir: /sorm_logs/
@@ -12,5 +12,5 @@
     - environment
     - mariadb
     - clickhouse
-    - app
+    - admin
     - sorm_logs_backup

@@ -1,12 +1,12 @@
 - name: django settings directory
   file:
-    path: "{{ project_dir }}/etc/app"
+    path: "{{ project_dir }}/etc/admin"
     state: directory
 
 - name: django settings
   template:
     src: django_settings.py
-    dest: "{{ project_dir }}/etc/app/django_settings.py"
+    dest: "{{ project_dir }}/etc/admin/django_settings.py"
     mode: 0644
   tags: update
 
@@ -37,7 +37,7 @@
       - name: sorm_logs_network
     command: ["./wait-for-it.sh", "maria_db_prod:3306", "--timeout=60", "--", "./start.sh"]
     volumes:
-      - "{{ project_dir }}/etc/app:/code/sorm_logs_custom_settings"
+      - "{{ project_dir }}/etc/admin:/code/sorm_logs_custom_settings"
     env:
       DJANGO_SETTINGS_MODULE: sorm_logs_custom_settings.django_settings
   tags: update
